@@ -20,11 +20,11 @@ def add_layer(inputs, in_size, out_size, activation_function=None):
 #x_data = np.linspace(-1, 1, 300)[:, np.newaxis]
 #noise = np.random.normal(0, 0.05, x_data.shape)
 #y_data = np.sin(x_data) + 0.5 + noise;
-# 1.5
-workbook = xlrd.open_workbook(r'/mnt/e/sheet.xlsx')
+# 1.5 从excel中读取数据
+workbook = xlrd.open_workbook(r'/home/yuqiaowang/learnTensorflow/data/sheet.xlsx')
 sheet1 = workbook.sheet_by_index(0)
-x_data = np.array(sheet1.col_values(0))
-y_data = np.array(sheet1.col_values(2))
+x_data = np.array(sheet1.col_values(0))[:, np.newaxis]
+y_data = np.array(sheet1.col_values(2))[:, np.newaxis]
 
 
 
@@ -71,4 +71,12 @@ print(sess.run(Weights1))
 print(sess.run(Weights2))
 print(sess.run(biases1))
 print(sess.run(biases2))
+# 验证部分
+#for i in range(800, 850):
+#    x_valiation = x_data[i][:, np.newaxis]
+#    hidden_valiation = np.add(np.matmul(sess.run(Weights1), x_valiation), sess.run(biases1))
+#   y_valiation = np.add(np.matmul(sess.run(Weights2), hidden_valiation), sess.run(biases2))
+#    print(sess.run(y_valiation))
+for i in range (800, 820):
+    print(sess.run(prediction, feed_dict={xs:x_data[i][:, np.newaxis]}))
 
