@@ -34,14 +34,14 @@ xs = tf.placeholder(tf.float32, [None, 1])
 ys = tf.placeholder(tf.float32, [None, 1])
 
 # 3.定义神经层：隐藏层和预测层
-# add hidden layer 输入值是 xs, 在隐藏层有10个神经元
-layerparameters1 = add_layer(xs, 1, 10, activation_function=tf.nn.relu)
+# add hidden layer 输入值是 xs(31个神经元), 在隐藏层有30个神经元
+layerparameters1 = add_layer(xs, 31, 30, activation_function=tf.nn.relu)
 l1 = layerparameters1[0]
 Weights1 = layerparameters1[1]
 biases1 = layerparameters1[2]
 
 # add output layer 输入值是隐藏层l1,在预测层输出1个结果
-layerparameters2 = add_layer(l1, 10, 1, activation_function=None)
+layerparameters2 = add_layer(l1, 30, 16, activation_function=None)
 prediction = layerparameters2[0]
 Weights2 = layerparameters2[1]
 biases2 = layerparameters2[2]
