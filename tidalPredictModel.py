@@ -96,4 +96,5 @@ for i in range(100000):
 
 #for i in range (800, 820):
 #    print(sess.run(prediction, feed_dict={xs:x_data[i][:, np.newaxis]}))
-print(sess.run(prediction, feed_dict={xs:x_data[5]}))
+x_feed = np.transpose(x_data[11][:,np.newaxis])
+print(sess.run(prediction, feed_dict={xs : x_feed}))
