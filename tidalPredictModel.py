@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import xlrd
+import xlwt
 
 #添加层
 def add_layer(inputs, in_size, out_size, activation_function=None):	
@@ -16,11 +17,7 @@ def add_layer(inputs, in_size, out_size, activation_function=None):
     return parameters
 
 # 1.训练的数据
-# Make up some real data
-#x_data = np.linspace(-1, 1, 300)[:, np.newaxis]
-#noise = np.random.normal(0, 0.05, x_data.shape)
-#y_data = np.sin(x_data) + 0.5 + noise;
-# 1.5 从excel中读取数据
+# 从excel中读取数据
 workbook = xlrd.open_workbook(r'/home/yuqiaowang/learnTensorflow/data/sheet.xlsx')
 sheet1 = workbook.sheet_by_index(0)
 x_data_raw = []
@@ -82,19 +79,25 @@ for i in range(100000):
     if i % 500 == 0:
         # to see the step improvement
         print(sess.run(loss, feed_dict={xs: x_data, ys: y_data}))
-#print(sess.run(tf.matmul(Weights1, Weights2)))
-#print(sess.run(Weights1))
-#print(sess.run(Weights2))
-#print(sess.run(biases1))
-#print(sess.run(biases2))
-# 验证部分
-#for i in range(800, 850):
-#    x_valiation = x_data[i][:, np.newaxis]
-#    hidden_valiation = np.add(np.matmul(sess.run(Weights1), x_valiation), sess.run(biases1))
-#   y_valiation = np.add(np.matmul(sess.run(Weights2), hidden_valiation), sess.run(biases2))
-#    print(sess.run(y_valiation))
 
+# 6.验证部分
 #for i in range (800, 820):
 #    print(sess.run(prediction, feed_dict={xs:x_data[i][:, np.newaxis]}))
-x_feed = np.transpose(x_data[11][:,np.newaxis])
-print(sess.run(prediction, feed_dict={xs : x_feed}))
+out_workbook = xlwt.Workbook()
+out_sheet = out_workbook.add_sheet('prediction')
+for i in range(0, 24):
+    x_feed = np.transpose(x_data[i][:,np.newaxis])
+    xl_out_data = sess.run(prediction, feed_dict={xs : x_feed})
+    xl_write_data = xl_out_data.tolist()
+    row = out_sheet.row(i)
+    for j in range(0, 16):
+        row.write(j, xl_write_data[0][j])
+out_workbook.save('/home/yuqiaowang/learnTensorflow/data/output.xls')
+
+
+#x_feed = np.transpose(x_data[11][:,np.newaxis])
+#print(sess.run(prediction, feed_dict={xs : x_feed}))
+#for i in range(0:24):
+#    x_feed = np.transpose(x_data[i][:, np.newaxis])
+#    xl_write_data = sess.run(prediction, feed_dict={xs : x_feed})
+        
