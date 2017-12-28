@@ -86,7 +86,7 @@ for i in range(100000):
 out_workbook = xlwt.Workbook()
 out_sheet = out_workbook.add_sheet('prediction')
 for i in range(0, 24):
-    x_feed = np.transpose(x_data[i][:,np.newaxis])
+    x_feed = np.transpose(x_data[i + 96][:,np.newaxis])
     xl_out_data = sess.run(prediction, feed_dict={xs : x_feed})
     xl_write_data = xl_out_data.tolist()
     row = out_sheet.row(i)
